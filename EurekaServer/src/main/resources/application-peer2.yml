@@ -1,0 +1,22 @@
+#高可用Eureka注册中心
+server:
+  port: 8082
+
+eureka:
+  instance:
+    hostname: peer2 #配置注册中心的主机名，必须需要和defaultZone中的域名对应，如果不指定，则为主机名
+    metadata-map:
+      username: xiongqiankun  #元数据需要英文或者数字，不能为汉字,别问为啥，问就是不知道
+      password: 123321123 #元数据需要英文或者数字，不能为汉字
+    lease-renewal-interval-in-seconds: 30 #心跳的间隔时间
+    lease-expiration-duration-in-seconds: 90  #如果长时间没有收到心跳，判定服务过期的时间
+#    instance-id:  #一个服务（以服务名为区分）中的所有实例都有一个唯一的id，如果一个服务下的实例的instance-id一样，则只有一个能够提供服务,所以需需要唯一
+                   #默认为${spring.cloud.client.hostname}+${spring.application.name}+${server.port},例如："xiongqiankun:microservice-eurekaserver:8082"
+
+  client:
+    service-url:
+      defaultZone: http://peer1:8081/eureka/ #暴露Eureka注册中心的注册地址
+
+spring:
+  application:
+    name: microservice-eurekaserver #服务名

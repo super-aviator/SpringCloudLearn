@@ -1,0 +1,23 @@
+spring:
+  #数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/jpa?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    name: jpa
+
+  #服务名配置
+  application:
+    name: microservice-eurekaclient #指定微服务名称，API网关中通过服务名去调用不同的服务
+                                    #不同的服务通过服务名去区分，一个服务下可能有多个实例（通过eureka.instance.instance_id区分）
+#tomcat端口配置
+server:
+  port: 10000
+
+# Eureka客户端配置信息查询类：EurekaClientConfigBean.class
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8081/eureka/ #配置注册中心的地址,在多注册中心的集群中，只需要注册集群中的一个即可。
+#    availability-zones: #指定服务所属的zone,默认为default_zone,可以有多个
+#    region: # 指定服务所属的region,默认为default_region，只有一个

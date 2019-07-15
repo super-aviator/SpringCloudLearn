@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: microservice-zuulgateway
+
+server:
+  port: 9090
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8081/eureka/,http://127.0.0.1:8082/eureka/ #配置注册中心的地址,包含两个地址
+
+zuul:
+  routes:
+    #使用path和url结合的方式配置不会有短路和负载均衡的功能，要避免使用
+    #    api1:
+    #      path: /api1/**
+    #      url: MICROSERVICE-EUREKACLIENT
+
+    #使用path和serviceID的方式配置路由
+    #    api2:
+    #      path: /api2/**
+    #      serviceID: MICROSERVICE-EUREKACLIENT-DUP
+
+
+    #使用zuul.routes.{serviceID}=path的方式配置路由
+    #值得注意的时，在这里配合的路由不会覆盖zuul的自动路由配置，自动路由配置只能通过ignored-services去关闭
+    microservice-eurekaclient: /client/**  #方式一
+
+    microservice-eurekaclient-dup: #方式二
+      path: /client-dup/**
+#      sensitive-headers: Cookies,Set-Cookies,Authorization #开启某个服务的局部头部过滤，客户请求之后，该头部会被过滤
+
+    ignored-services: '*' # 关闭所有服务的自动路由配置，更加安全，不会暴露不必要的service，注意：* 他喵的必须是字符串类型
+  #  ignored-services: microservice-feignconsumer, # 关闭microservice-feignconsumer的自动路由配置
+
+  ignored-headers: Cookies,Set-Cookies,Authorization #忽略头部，如果客户端在发请求是带了某头部，那么该头部依然会传递给下游服务。但是如果下游服务再转发就会被过滤
+#  sensitive-headers: Cookies,Set-Cookies,Authorization #开启全局的头部过滤，客户请求之后，该头部会被过滤，基于ignored-headers
+
+  add-host-header: true #增加登陆成功后的跳转头部，使得通过网关跳转
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: routes #开启actuator的routes端点
+
+logging:
+  level:
+    com.nestflix: DEBUG #开启netflix包的Debug日志，用于查看zuul的路由转发详情
+
+ribbon:
+  ConnectTimeout: 1000
+  ReadTimeout: 1000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000 #设置断路器的超时时间默认为1000毫秒

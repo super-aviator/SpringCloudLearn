@@ -1,0 +1,24 @@
+server:
+  port: 9036
+
+spring:
+  application:
+    name: microservice-configserver #服务名
+
+  #SpringCloud配置
+  cloud:
+    config:
+      server:
+        git:
+          username: ************* #用户名
+          password: ************* #密码
+          uri: https://github.com/Super-Aviator/SpringCloudConfig.git  #git仓库的地址
+          search-paths: SpringCloudLearnConfig/   #存放配置文件的目录
+          default-label: master #默认选择的git分支
+
+  #数据源配置
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/jpa?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    name: springcloudconfig

@@ -1,0 +1,56 @@
+server:
+  port:
+    9001
+
+spring:
+  application:
+    name: microservice-feignconsumer  #服务名称
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:8081/eureka/,http://peer2:8082/eureka/ #高可用注册中心地址
+
+hystrix:
+  command:
+    # default的配置所有熔断方法都生效
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000 #设置断路器的超时时间，默认为1000毫秒
+
+    #feign接口中的callDelay方法的Hystrix设置
+    callDelay:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 #设置feign接口中，callDelay方法断路器的超时时间，默认为1000毫秒
+
+#配置服务的ribbon超时属性,该配置只有在Feign+Hystrix中才生效
+microservice-eurekaclient:
+  ribbon:
+    #    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule # 随机选择实例
+    connectTimeout: 1000 #请求链接的超时时间
+    readTimeout: 1000 #请求处理的超时时间
+    okToRetryOnAllOperations: true #是否对所有失败都进行重试
+    maxAutoRetriesNextServer: 0 #重试失败时的切换实例的次数
+    maxAutoRetries: 2 #相同实例重试的次数
+
+#feign的配置
+feign:
+  hystrix:
+    enabled: true #开启熔断，否则熔断不会触发
+  compression:
+    request:
+      enabled: true #开启请求压缩
+    #      mime-types: #开启压缩的类型
+    #      min-request-size: 2048 #开启压缩的最小限制
+    response:
+      enabled: true #开启响应压缩
+
+execution:
+  isolation:
+    startegy: ExecutionIsolationStrategy.SEMAPHORE #配置使用信号量的方式，默认为THREAD
+    semaphore:
+      maxConcurrentRequests: 10 #信号量大小，达到阀值会快速失败

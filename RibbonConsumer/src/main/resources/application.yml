@@ -1,0 +1,37 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: microservice-ribboncomsumer @服务名
+
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true #开启Ribbon访问失败的重试功能
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:8081/eureka,http://peer2:8082/eureka
+    registry-fetch-interval-seconds: 30 # 获取注册中心服务列表的间隔时间
+
+#在使用 Ribbon+Hystrix时，只需要配置 Hystrix 的超时时间就可以生效，不需要额外配置Ribbon的超时时间,配置了也没效果。。
+#Ribbon中的配置在CommonClientConfigKey.class中查看
+ribbon:
+  #  ReadTimeout: 500 #指的请求处理的超时时间
+  #  ConnectTimeout: 500  #指的是请求链接的超时时间
+  eureka:
+    enabled: true # 开启和关闭Eureka和Ribbon的整合，默认开启。
+
+#在使用Feign+Hystrix时，需要配置Ribbon和Hystrix的超时时间，其中断路器的超时时间应该大于Ribbon的超时时间
+#在使用Ribbon+Hystrix时，只需要配置 Hystrix 的超时时间就可以生效，不需要额外配置 Ribbon 的超时时间,配置了也没效果。。
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 #设置断路器的超时时间默认为1000毫秒
+
+# 在Ribbon+Hystrix中，配置Ribbon的超时不起作用,对于Ribbon的配置只能在Feign+Hystrix中配置

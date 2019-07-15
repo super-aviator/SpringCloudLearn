@@ -1,0 +1,8 @@
+# spring cloud 配置中的name一定不能忘
+spring:
+  cloud:
+    config:
+      profile: prod
+      label: master #分支
+      uri: http://localhost:9036/ #配置中心的URL地址
+      name: didispace  #！！！！！！cli！！！！一定一定不能忘的，弄了大半天。。
