@@ -14,9 +14,7 @@ eureka:
                    #默认为${spring.cloud.client.hostname}+${spring.application.name}+${server.port},例如："xiongqiankun:microservice-eurekaserver:8082"
 
   client:
+    fetch-registry: true #使注册中心同步注册列表，单注册中心时为false
+    register-with-eureka: true #使注册中心自己注册自己，单注册中心时为false
     service-url:
       defaultZone: http://peer1:8081/eureka/ #暴露Eureka注册中心的注册地址
-
-spring:
-  application:
-    name: microservice-eurekaserver #服务名

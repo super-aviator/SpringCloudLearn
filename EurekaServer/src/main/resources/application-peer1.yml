@@ -9,9 +9,7 @@ eureka:
       username: zhangwei  #元数据需要英文或者数字，不能为汉字
       password: 99999999999666666 #元数据需要英文或者数字，不能为汉字
   client:
+    fetch-registry: true #使注册中心同步注册列表，单注册中心时为false
+    register-with-eureka: true #使注册中心自己注册自己，单注册中心时为false
     service-url:
       defaultZone: http://peer2:8082/eureka/ #暴露Eureka注册中心的注册地址
-
-spring:
-  application:
-    name: microservice-eurekaserver #服务名

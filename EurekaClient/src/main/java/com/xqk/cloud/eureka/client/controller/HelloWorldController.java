@@ -1,12 +1,10 @@
 package com.xqk.cloud.eureka.client.controller;
 
-import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
-import com.netflix.discovery.shared.Applications;
+import com.xqk.cloud.eureka.client.config.ServiceConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -24,23 +22,23 @@ import java.util.Random;
 @RestController
 @Slf4j
 public class HelloWorldController {
-    @Qualifier("eurekaClient")
-    @Autowired
-    EurekaClient eurekaClient;
+    private final EurekaClient eurekaClient;
 
     private Random random=new Random();
 
-    /**
-     * 从spring cloud config中获取的配置信息
-     */
-//    @Value("${from}")
-    private String fromProperties;
+    private final ServiceConfig config;
 
     /**
      * 可以通过DiscoveryClient来获取服务端的元数据
      */
+    private final DiscoveryClient discoveryClient;
+
     @Autowired
-    private DiscoveryClient discoveryClient;
+    public HelloWorldController(@Qualifier("eurekaClient") EurekaClient eurekaClient, ServiceConfig config, DiscoveryClient discoveryClient) {
+        this.eurekaClient = eurekaClient;
+        this.config = config;
+        this.discoveryClient = discoveryClient;
+    }
 
 
     @GetMapping("/hello")
@@ -61,13 +59,13 @@ public class HelloWorldController {
         return "bye";
     }
 
-    @GetMapping("/from")
-    public String from(){
-        return fromProperties;
+    @GetMapping(value = "/config")
+    public String config(){
+        return config.toString();
     }
 
     /**
-     * 获取serviceID的元数据
+     * 获取指定serviceID的元数据
      * @param serviceId 服务器名
      * @return 元数据信息
      */

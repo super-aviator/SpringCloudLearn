@@ -1,8 +1,16 @@
-# spring cloud 配置中的name一定不能忘
+# spring cloud config配置文件，需要配置在bootstrap.yml中(优先级高于application.*)
 spring:
   cloud:
     config:
-      profile: prod
-      label: master #分支
-      uri: http://localhost:9036/ #配置中心的URL地址
-      name: didispace  #！！！！！！cli！！！！一定一定不能忘的，弄了大半天。。
+      profile: prod #选择远程配置中心的profile
+      label: master #选择远程配置中心的分支
+      uri: http://localhost:9036/ #远程配置中心的URL地址,默认为http://localhost:8888
+      name: didispace  #选择服务的名称，一定一定不能忘的，弄了大半天！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+      fail-fast: true #开启快速失败功能，当程序启动时，首先检查远程配置是否可用，并自动开启重试功能（默认6次）
+
+      #配置重试
+      retry:
+        max-attempts: 6 #最大重试次数(默认为6)
+        max-interval: 2000 #最大间隔
+        initial-interval: 1000 #下一间隔的乘数，默认1.1,即上次为1000，下次为1100
+        multiplier: 1.1 #初始重试间隔时间默认1.1

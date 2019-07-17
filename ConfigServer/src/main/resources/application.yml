@@ -1,5 +1,5 @@
 server:
-  port: 9036
+  port: 9036  #服务运行的端口
 
 spring:
   application:
@@ -10,11 +10,13 @@ spring:
     config:
       server:
         git:
-          username: ************* #用户名
-          password: ************* #密码
+          username: super-aviator #用户名
+          password: "{cipher}b8ebbfd76f9e87303431951270b442dc6e6cc0b91fe3bf82b2fcf1c8439731f1" #密码（注意需要使用双引号）,使用rsa对称加密（/encrypt、/decrypt端点），使用jdk的JCE扩展，同时在启动时指定encrypt.key解密秘钥参数,并导入security-rsa的依赖！！！！！！！
           uri: https://github.com/Super-Aviator/SpringCloudConfig.git  #git仓库的地址
           search-paths: SpringCloudLearnConfig/   #存放配置文件的目录
           default-label: master #默认选择的git分支
+        encrypt:
+          enabled: false  #设置config-server的服务端不对配置进行解密，让密码在客户端注入的时候解密。
 
   #数据源配置
   datasource:
@@ -22,3 +24,8 @@ spring:
     username: root
     password: 123456
     name: springcloudconfig
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:8081/eureka

@@ -21,3 +21,9 @@ eureka:
       defaultZone: http://peer1:8081/eureka/ #配置注册中心的地址,在多注册中心的集群中，只需要注册集群中的一个即可。
 #    availability-zones: #指定服务所属的zone,默认为default_zone,可以有多个
 #    region: # 指定服务所属的region,默认为default_region，只有一个
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health #开启actuator中的端点，refresh端点用于配置文件的自动刷新

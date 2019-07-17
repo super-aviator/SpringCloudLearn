@@ -6,6 +6,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @author 熊乾坤
+ *
+ *  必须使用@EnableDiscoveryClient注解开启Eurake的服务发现功能
  */
 @SpringBootApplication
 @EnableDiscoveryClient
