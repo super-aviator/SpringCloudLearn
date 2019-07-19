@@ -1,4 +1,4 @@
-package com.xqk.cloud.zuul.gateway.bean.filter;
+package com.xqk.cloud.zuul.gateway.bean.processor;
 
 import org.apache.commons.io.IOUtils;
 import lombok.extern.slf4j.Slf4j;
