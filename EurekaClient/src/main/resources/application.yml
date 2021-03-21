@@ -1,15 +1,19 @@
 spring:
   #数据源配置
+  #当启动时连接数据库时出现的Public Key Retrieval is not allowed错误
   datasource:
-    url: jdbc:mysql://localhost:3306/jpa?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/jpa?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: 123456
     name: jpa
 
+  jpa:
+    database: mysql #制定数据库类型，否则有异常：Caused by: org.hibernate.HibernateException: Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set
+
   #服务名配置
   application:
     name: microservice-eurekaclient #指定微服务名称，API网关中通过服务名去调用不同的服务
-                                    #不同的服务通过服务名去区分，一个服务下可能有多个实例（通过eureka.instance.instance_id区分）
+    #不同的服务通过服务名去区分，一个服务下可能有多个实例（通过eureka.instance.instance_id区分）
 #tomcat端口配置
 server:
   port: 10000
@@ -18,7 +22,19 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://peer1:8081/eureka/ #配置注册中心的地址,在多注册中心的集群中，只需要注册集群中的一个即可。
+      defaultZone: http://101.37.172.37:18080/eureka/
+        #        - http://peer1:8081/eureka/
+        #        - http://peer2:8082/eureka/
+      #配置注册中心的地址,在多注册中心的集群中，只需要注册集群中的一个即可。(注意，url最后的/必须要加，否则无法注册。。。。)
+
+    healthcheck:
+      enabled: true #开启客户端的健康检查端点
+
+  instance:
+    lease-renewal-interval-in-seconds: 5  #定义eureka client发送心跳给eureka server的频率
+    lease-expiration-duration-in-seconds: 60 #定义当eureka server在此时间段内接收不到心跳时,认为该实例不可用,默认90秒
+    prefer-ip-address: true #是否使用ip进行注册,默认为false,默认使用hostname进行注册
+
 #    availability-zones: #指定服务所属的zone,默认为default_zone,可以有多个
 #    region: # 指定服务所属的region,默认为default_region，只有一个
 

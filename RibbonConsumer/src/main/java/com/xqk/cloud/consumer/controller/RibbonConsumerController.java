@@ -1,6 +1,6 @@
-package com.xqk.cloud.ribbon.consumer.controller;
+package com.xqk.cloud.consumer.controller;
 
-import com.xqk.cloud.ribbon.consumer.service.HystrixService;
+import com.xqk.cloud.consumer.service.HystrixService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @Slf4j
-public class ConsumerController {
+public class RibbonConsumerController {
     @Autowired
     private RestTemplate restTemplate;
 

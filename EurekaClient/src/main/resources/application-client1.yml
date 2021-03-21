@@ -1,0 +1,11 @@
+server:
+  port: 10001
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:8081/eureka/ #注册一个注册中心
+
+  instance:
+    status-page-url: http://${eureka.instance.hostname}:${server.port}/actuator/health  # 定义在eureka管理页面中,点击该实例时,跳转的url地址
+    hostname: localhost

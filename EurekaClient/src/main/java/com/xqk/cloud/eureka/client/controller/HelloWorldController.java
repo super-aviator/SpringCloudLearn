@@ -24,9 +24,9 @@ import java.util.Random;
 public class HelloWorldController {
     private final EurekaClient eurekaClient;
 
-    private Random random=new Random();
+    private Random random = new Random();
 
-    private final ServiceConfig config;
+    //private final ServiceConfig config;
 
     /**
      * 可以通过DiscoveryClient来获取服务端的元数据
@@ -34,23 +34,23 @@ public class HelloWorldController {
     private final DiscoveryClient discoveryClient;
 
     @Autowired
-    public HelloWorldController(@Qualifier("eurekaClient") EurekaClient eurekaClient, ServiceConfig config, DiscoveryClient discoveryClient) {
+    public HelloWorldController(@Qualifier("eurekaClient") EurekaClient eurekaClient, DiscoveryClient discoveryClient) {
         this.eurekaClient = eurekaClient;
-        this.config = config;
         this.discoveryClient = discoveryClient;
     }
 
 
     @GetMapping("/hello")
     public String sayHello() {
+        log.info("i say hello");
         return "hello";
     }
 
     @GetMapping("/delay")
     public String hasDelay() throws InterruptedException {
-        int delay=random.nextInt(3500);
+        int delay = random.nextInt(3500);
         Thread.sleep(delay);
-        log.info("故意睡着了"+delay+"毫秒");
+        log.info("故意睡着了" + delay + "毫秒");
         return "想不到吧，我没迟到。";
     }
 
@@ -60,26 +60,29 @@ public class HelloWorldController {
     }
 
     @GetMapping(value = "/config")
-    public String config(){
-        return config.toString();
+    public String config() {
+    //    return config.toString();
+        return null;
     }
 
     /**
      * 获取指定serviceID的元数据
+     *
      * @param serviceId 服务器名
      * @return 元数据信息
      */
     @GetMapping("/metadata/{serviceId}")
-    public List<ServiceInstance> metadata(@PathVariable String serviceId){
+    public List<ServiceInstance> metadata(@PathVariable String serviceId) {
         return discoveryClient.getInstances(serviceId);
     }
 
     /**
      * 获取所有已注册的服务的serviceID
+     *
      * @return serviceID列表
      */
     @GetMapping("/instance")
-    public List<String> in(){
+    public List<String> in() {
         return discoveryClient.getServices();
     }
 }

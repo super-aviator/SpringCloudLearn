@@ -1,8 +1,8 @@
 package com.xqk.cloud.zuul.gateway.bean.filter;
 
 import com.netflix.zuul.ZuulFilter;
-import com.netflix.zuul.exception.ZuulException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
 
 
@@ -12,12 +12,13 @@ import org.springframework.stereotype.Component;
  *
  * @author 熊乾坤
  */
+
 @Component
 @Slf4j
 public class PreErrorGenericFilter extends ZuulFilter {
     @Override
     public String filterType() {
-        return "pre";
+        return FilterConstants.PRE_TYPE;
     }
 
     @Override
@@ -27,16 +28,17 @@ public class PreErrorGenericFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        return true;
+        return false;
     }
 
     @Override
-    public Object run() throws ZuulException {
+    public Object run() {
         log.info("ErrorGenericFilter 抛出了一个异常");
         try {
             throw new RuntimeException();
         } catch (Exception e) {
-            throw new ZuulException(e,"网关抛出了异常",1,"");
+            //throw new ZuulException(e,"网关抛出了异常",1,"");
+            return null;
         }
     }
 }

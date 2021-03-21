@@ -2,6 +2,7 @@
 spring:
   cloud:
     config:
+      enabled: false #关闭sping cloud config服务
       profile: prod #选择远程配置中心的profile
       label: master #选择远程配置中心的分支
       uri: http://localhost:9036/ #远程配置中心的URL地址,默认为http://localhost:8888

@@ -17,8 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ErrorHandlerController implements ErrorController {
     @RequestMapping("/error")
     public ResponseEntity<String> error(HttpServletRequest request) {
-        log.info(request.getParameterMap().toString());
-        return new ResponseEntity<>("网关抛出异常啦",HttpStatus.BAD_GATEWAY);
+        return new ResponseEntity<>("网关抛出异常啦!!!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override

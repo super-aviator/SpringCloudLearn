@@ -1,4 +1,4 @@
-package com.xqk.cloud.ribbon.consumer;
+package com.xqk.cloud.consumer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

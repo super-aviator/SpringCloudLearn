@@ -3,18 +3,41 @@ server:
 
 spring:
   application:
-    name: microservice-ribboncomsumer @服务名
+    name: microservice-comsumer #服务名
 
   cloud:
     loadbalancer:
       retry:
         enabled: true #开启Ribbon访问失败的重试功能
 
+management:
+  endpoint:
+    health:
+      show-details: always #显示health断点的详细信息
+  endpoints:
+    web:
+      exposure:
+        include: [hystrix.stream,info,health]
+
 eureka:
   client:
     service-url:
-      defaultZone: http://peer1:8081/eureka,http://peer2:8082/eureka
+      defaultZone: http://peer1:8081/eureka,http://peer2:8082/eureka #指定高可用的服务中心地址
     registry-fetch-interval-seconds: 30 # 获取注册中心服务列表的间隔时间
+
+  instance:
+    lease-renewal-interval-in-seconds: 5  #定义eureka client发送心跳给eureka server的频率
+    lease-expiration-duration-in-seconds: 5 #定义当eureka server在此时间段内接收不到心跳时,认为该实例不可用,默认90秒
+
+feign:
+  compression:
+    response:
+      enabled: true #开启feign响应的压缩功能
+    request:
+      enabled: true #开启feign请求的压缩功能
+      min-request-size: 2048 #当请求大小达到阈值时才进行压缩
+  hystrix:
+    enabled: true #开启熔断，否则熔断不能触发，非常重要，非常重要，非常重要，非常重要
 
 #在使用 Ribbon+Hystrix时，只需要配置 Hystrix 的超时时间就可以生效，不需要额外配置Ribbon的超时时间,配置了也没效果。。
 #Ribbon中的配置在CommonClientConfigKey.class中查看
@@ -32,6 +55,6 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 5000 #设置断路器的超时时间默认为1000毫秒
-
+            timeoutInMilliseconds: 500 #设置断路器的超时时间默认为1000毫秒
 # 在Ribbon+Hystrix中，配置Ribbon的超时不起作用,对于Ribbon的配置只能在Feign+Hystrix中配置
+

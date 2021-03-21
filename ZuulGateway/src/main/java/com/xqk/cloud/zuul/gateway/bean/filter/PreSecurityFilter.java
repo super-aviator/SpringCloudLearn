@@ -2,6 +2,8 @@ package com.xqk.cloud.zuul.gateway.bean.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +15,11 @@ import java.nio.charset.StandardCharsets;
  * @author 熊乾坤
  */
 @Component
+@Slf4j
 public class PreSecurityFilter extends ZuulFilter {
     @Override
     public String filterType() {
-        return "pre";
+        return FilterConstants.PRE_TYPE;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class PreSecurityFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        return false;
+        return true;
     }
 
     @Override
@@ -35,6 +38,8 @@ public class PreSecurityFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         HttpServletResponse response=ctx.getResponse();
+        log.info("interceptor request ,Authorization header: {}", request.getHeader("Authorization"));
+        log.info("interceptor request ,keep-alive header: {}", request.getHeader("keep-alive"));
         response.setContentType("text/html:charset=UTF-8");
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         if (request.getParameter("token") == null) {

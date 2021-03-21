@@ -5,9 +5,14 @@ server:
 
 # Eureka服务端的配置类：EurekaServerConfigBean.class
 eureka:
+  #实例配置
   instance:
     hostname: localhost #配置注册中心的主机名，必须需要和defaultZone中的域名对应
-    prefer-ip-address: false # 可以使用ip地址来注册服务中心
+    prefer-ip-address: true # 是否使用ip地址来注册服务中心,用于客户端,而非服务端
+    instance-id: ${spring.application.name}:${random.int} #实例标识，一个服务下的实例由这个区分，如果实例id相同，则只能有一个实例能提供服务
+  #    ip-address: 127.0.0.1 # ip地址
+
+  #客户端配置
   client:
     fetch-registry: false #使注册中心同步注册列表，单注册中心时为false
     register-with-eureka: false #使注册中心自己注册自己，单注册中心时为false
@@ -15,8 +20,11 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/ #暴露Eureka注册中心的注册地址,默认为localhost:8761/eureka/
     healthcheck:
       enabled: true #开启Eureka的健康检查，配置在bootstrap.yml中可能会出问题，更细粒度的健康检查可以实现HealthCheckHandler接口
+
+  #服务端配置
   server:
-    enable-self-preservation: true  #开启和关闭自我保护，开启自我保护功能可能会导致无法正确剔除有问题的服务，开发时可以关闭。
+    enable-self-preservation: false  #开启和关闭自我保护，开启自我保护功能可能会导致无法正确剔除有问题的服务，开发时可以关闭,关闭之后如果某个服务不可用会对该服务进行剔除。
+    eviction-interval-timer-in-ms: 30000 #设置eureka剔除服务的时间间隔,当设置的较短时,会更快的剔除不可用服务,默认为60秒
 
 spring:
   application:
