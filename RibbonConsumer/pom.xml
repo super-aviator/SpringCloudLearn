@@ -8,10 +8,10 @@
         <version>2.1.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.xqk.cloud.ribbon</groupId>
-    <artifactId>consumer</artifactId>
+    <groupId>com.xqk.cloud</groupId>
+    <artifactId>ribbon-hystrix-feign</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>RibbonConsumer</name>
+    <name>ribbon-hystrix-feign</name>
     <description>Ribbon+Hystrix的测试项目</description>
 
     <properties>

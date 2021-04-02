@@ -8,10 +8,10 @@
         <version>2.1.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.xqk.cloud.zuul</groupId>
-    <artifactId>gateway</artifactId>
+    <groupId>com.xqk.cloud</groupId>
+    <artifactId>zuul-gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gateway</name>
+    <name>zuul-gateway</name>
     <description>Zuul网关的测试项目</description>
 
     <properties>

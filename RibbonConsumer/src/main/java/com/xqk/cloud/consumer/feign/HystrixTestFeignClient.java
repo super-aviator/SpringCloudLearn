@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author 熊乾坤
  */
 @FeignClient(name = "MICROSERVICE-EUREKACLIENT")
-public interface HystrixTestFeignService {
+public interface HystrixTestFeignClient {
     @GetMapping("/delayInMilli/{milli}")
     String callDelayInterface(@PathVariable long milli);
 }

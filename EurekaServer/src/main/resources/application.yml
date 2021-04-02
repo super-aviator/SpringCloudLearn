@@ -24,7 +24,7 @@ eureka:
   #服务端配置
   server:
     enable-self-preservation: false  #开启和关闭自我保护，开启自我保护功能可能会导致无法正确剔除有问题的服务，开发时可以关闭,关闭之后如果某个服务不可用会对该服务进行剔除。
-    eviction-interval-timer-in-ms: 30000 #设置eureka剔除服务的时间间隔,当设置的较短时,会更快的剔除不可用服务,默认为60秒
+    eviction-interval-timer-in-ms: 10000 #设置eureka剔除服务的时间间隔,当设置的较短时,会更快的剔除不可用服务,默认为60秒
 
 spring:
   application:

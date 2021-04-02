@@ -1,5 +1,5 @@
 server:
-  port: 9036  #服务运行的端口
+  port: 60000  #服务运行的端口
 
 spring:
   application:
@@ -11,21 +11,30 @@ spring:
       server:
         git:
           username: super-aviator #用户名
-          password: "{cipher}b8ebbfd76f9e87303431951270b442dc6e6cc0b91fe3bf82b2fcf1c8439731f1" #密码（注意需要使用双引号）,使用rsa对称加密（/encrypt、/decrypt端点），使用jdk的JCE扩展，同时在启动时指定encrypt.key解密秘钥参数,并导入security-rsa的依赖！！！！！！！
-          uri: https://github.com/Super-Aviator/SpringCloudConfig.git  #git仓库的地址
+          #          password: "{cipher}b8ebbfd76f9e87303431951270b442dc6e6cc0b91fe3bf82b2fcf1c8439731f1" #密码（注意需要使用双引号）,使用rsa对称加密（/encrypt、/decrypt端点），使用jdk的JCE扩展，同时在启动时指定encrypt.key解密秘钥参数,并导入security-rsa的依赖！！！！！！！
+          password: "6504110130xqk" #密码（注意需要使用双引号）,使用rsa对称加密（/encrypt、/decrypt端点），使用jdk的JCE扩展，同时在启动时指定encrypt.key解密秘钥参数,并导入security-rsa的依赖！！！！！！！
+          uri: https://github.com/Super-Aviator/SpringCloudConfig  #git仓库的地址（我淦，这里填项目的浏览器地址，不是clone的地址！！！）
           search-paths: SpringCloudLearnConfig/   #存放配置文件的目录
           default-label: master #默认选择的git分支
+          force-pull: true #当本地副本被修改时，强制从远程仓库拉取新的配置
+          basedir: C:\Users\Public\Documents\ConfigServer #指定git clone的文件夹地址，用于替代默认的临时文件夹
+
         encrypt:
           enabled: false  #设置config-server的服务端不对配置进行解密，让密码在客户端注入的时候解密。
 
+        #设置全局属性，在spring.cloud.config.server.overrides下的属性会被加载到所有客户端，并且保证不会被客户端覆盖掉
+        overrides:
+          name: xqk
+          from: 上海
+
   #数据源配置
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/jpa?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://101.37.172.37:3306/springbootlearn?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: 123456
-    name: springcloudconfig
+    #    name: jpa
 
 eureka:
   client:
     service-url:
-      defaultZone: http://peer1:8081/eureka
+      defaultZone: http://49.235.67.7:18080/eureka/,http://101.37.172.37:18080/eureka/

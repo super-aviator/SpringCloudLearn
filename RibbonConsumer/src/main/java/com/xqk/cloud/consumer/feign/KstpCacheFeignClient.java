@@ -17,7 +17,7 @@ import java.util.List;
  * @author 熊乾坤
  * @since 2021-03-16 10:59
  */
-@FeignClient(name = "kstpCacheFeignClient", url = "${feign.kstp-cache}", configuration = ClientConfiguration.class)
+//@FeignClient(name = "kstpCacheFeignClient", url = "${feign.kstp-cache}", configuration = ClientConfiguration.class)
 public interface KstpCacheFeignClient {
     /**
      * 上传文件

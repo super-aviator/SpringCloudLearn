@@ -2,7 +2,7 @@ package com.xqk.cloud.consumer.controller;
 
 import com.xqk.cloud.consumer.dto.UserProjectionDTO;
 import com.xqk.cloud.consumer.feign.EurekaClientFeignService;
-import com.xqk.cloud.consumer.feign.SpringBootLearnFeignService;
+import com.xqk.cloud.consumer.feign.SpringBootLearnFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +17,13 @@ import java.util.List;
 @RequestMapping("/feign")
 public class FeignConsumerController {
     private final EurekaClientFeignService eurekaClientFeignService;
-    private final SpringBootLearnFeignService springBootLearnFeignService;
+    private final SpringBootLearnFeignClient springBootLearnFeignClient;
 
     @Autowired
-    public FeignConsumerController(EurekaClientFeignService eurekaClientFeignService, SpringBootLearnFeignService springBootLearnFeignService) {
+    public FeignConsumerController(EurekaClientFeignService eurekaClientFeignService,
+                                   SpringBootLearnFeignClient springBootLearnFeignClient) {
         this.eurekaClientFeignService = eurekaClientFeignService;
-        this.springBootLearnFeignService = springBootLearnFeignService;
+        this.springBootLearnFeignClient = springBootLearnFeignClient;
     }
 
     @GetMapping("/instance")
@@ -33,16 +34,26 @@ public class FeignConsumerController {
 
     @GetMapping("/hello")
     public String hello() {
-        return eurekaClientFeignService.sayHello();
+        return springBootLearnFeignClient.hello();
+    }
+
+    @GetMapping("/delayWithRandom")
+    String delayWithRandom() {
+        return springBootLearnFeignClient.delayWithRandom();
+    }
+
+    @GetMapping("/delayWithParam/{milliSeconds}")
+    String delayWithParam(@PathVariable Long milliSeconds) {
+        return springBootLearnFeignClient.delayWithParam(milliSeconds);
     }
 
     @GetMapping("/user/all")
     public List getAllUsers() {
-        return springBootLearnFeignService.getAllUser();
+        return springBootLearnFeignClient.getAllUser();
     }
 
     @PostMapping("/user/add")
     public void addUser(@RequestBody UserProjectionDTO userProjectionDTO) {
-        springBootLearnFeignService.addUser(userProjectionDTO);
+        springBootLearnFeignClient.addUser(userProjectionDTO);
     }
 }

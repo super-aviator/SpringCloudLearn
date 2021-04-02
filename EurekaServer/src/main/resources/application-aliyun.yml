@@ -5,7 +5,8 @@ server:
 eureka:
   instance:
     hostname: 101.37.172.37 #配置注册中心的主机名，必须需要和defaultZone中的域名对应
-    ip-address: 101.37.172.37 #eureka实例的ip地址
+    ip-address: 101.37.172.37 #eureka实例的ip地址：服务部署主机的外网ip地址
+    non-secure-port: 18080 #服务部署主机的外网端口
     metadata-map:
       username: zhangwei  #元数据需要英文或者数字，不能为汉字
       password: 99999999999666666 #元数据需要英文或者数字，不能为汉字

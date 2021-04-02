@@ -14,19 +14,24 @@ import org.springframework.web.client.RestTemplate;
  * @author 熊乾坤
  *
  * 可以使用@SpringCloudApplication代替下面的三个注解，这表明一个SpringCloud应用应该包含服务发现和熔断
- * -SpringBootApplication、EnableDiscoveryClient、EnableCircuitBreaker
+ * - SpringBootApplication
+ * - EnableDiscoveryClient
+ * - EnableCircuitBreaker
  *
- * EnableCircuitBreaker注解用于启用Hystrix熔断、EnableHystrixDashboard注解用于启用HystrixDashboard的可视化检测功能
+ * EnableCircuitBreaker注解用于启用Hystrix熔断
+ * EnableHystrixDashboard注解用于启用HystrixDashboard的可视化检测功能
+ * EnableFeignClients注解用于开启Feign
+ * EnableDiscoveryClient注解用于启用服务发现功能
  */
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableCircuitBreaker
 @EnableHystrixDashboard
-public class ConsumerApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(ConsumerApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     /**

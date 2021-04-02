@@ -8,10 +8,10 @@
         <version>2.1.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.xqk.cloud.eureka</groupId>
-    <artifactId>client</artifactId>
+    <groupId>com.xqk.cloud</groupId>
+    <artifactId>eureka-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>client</name>
+    <name>eureka-client</name>
     <description>Eureka 客户端</description>
 
     <properties>

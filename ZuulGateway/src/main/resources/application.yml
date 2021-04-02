@@ -9,7 +9,7 @@ spring:
       max-request-size: 2050MB
 
 server:
-  port: 9090
+  port: 60000
 
   #定义zuul处理过程中,有异常抛出时,转发到的默认路径
   error:
@@ -18,12 +18,14 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://peer1:8081/eureka/ #配置注册中心的地址,包含两个地址
+      defaultZone: http://101.37.172.37:18080/eureka/,http://49.235.67.7:18080/eureka/ #配置注册中心的地址,包含两个地址
   instance:
-    instance-id: ${spring.cloud.client.ip}:${server.port} #自定义服务的instanceID
+#    instance-id: ${spring.cloud.client.ip}:${server.port} #自定义服务的instanceID
+    instance-id: ${spring.application.name}:${server.port} #自定义服务的instanceID
 
 logging:
   level:
+#    root: debug
     com.nestflix: DEBUG #开启netflix包的Debug日志，用于查看zuul的路由转发详情
 
 #开放actuator端点
@@ -34,6 +36,8 @@ management:
         include: health,info,routes,filters #开启actuator的routes,filters端点
 
 zuul:
+  retryable: true #是否全局开启、关闭zuul中的Ribbon重试
+
   #设置zuul文件上传前缀,当需要上传大文件(1MB以上)的文件时,需要在路径最前加上/zuul(在prefix前面)
   servlet-path: /zuul
 
@@ -59,20 +63,23 @@ zuul:
 
     #方式二(推荐)
     #使用path和serviceID结合的方式.
-    springbootlearn-api:
-      path: /springbootlearn/**
-      serviceID: MICROSERVICE-SPRINGBOOTLEARN
+#    springbootlearn-api:
+#      path: /springbootlearn/**
+#      serviceID: MICROSERVICE-SPRINGBOOTLEARN
 
     #方式三
     #使用zuul.routes.{serviceID}=path的方式配置路由
     #值得注意的时，在这里配合的路由不会覆盖zuul的自动路由配置，自动路由配置只能通过ignored-services去关闭
-    #    microservice-eurekaclient: /client/**
-    #    microservice-springbootlearn: /springbootlearn/**
+#    microservice-eurekaclient: /client/**
+#    microservice-springbootlearn: /springbootlearn/**
 
     #方式四
-    microservice-eurekaclient:
-      path: /client/**
-#      sensitive-headers: Cookies,Set-Cookies,Authorization #开启某个服务的局部头部过滤，客户请求之后，该头部会被过滤
+    #{serviceID}:
+    # path: /client/**
+    # sensitive-headers: Cookies,Set-Cookies,Authorization #开启某个服务的局部头部过滤，客户请求之后，该头部会被过滤
+    microservice-springbootlearn:
+      path: /springbootlearn/**  #服务的路由配置
+      retryable: false #是否开启重试
 
     #配置zuul本地跳转,对于/path/**开始的路径,都会跳转到本地的/forward/**
     forward-route:
@@ -103,4 +110,4 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 60000 #设置断路器的超时时间默认为1000毫秒
+            timeoutInMilliseconds: 6000 #设置断路器的超时时间默认为1000毫秒

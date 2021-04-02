@@ -14,8 +14,8 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author 熊乾坤
  */
-@Component
 @Slf4j
+@Component
 public class PreSecurityFilter extends ZuulFilter {
     @Override
     public String filterType() {
