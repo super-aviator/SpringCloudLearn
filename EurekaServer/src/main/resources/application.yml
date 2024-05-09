@@ -1,7 +1,7 @@
 #单注册中心
 #CAP原则：Consistency（一致性）、 Availability（可用性）、Partition tolerance（分区容错性,可靠性），Eureka注重AP，Zookeeper注重CP
 server:
-  port: 8080
+  port: 80
 
 # Eureka服务端的配置类：EurekaServerConfigBean.class
 eureka:

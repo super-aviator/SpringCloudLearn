@@ -22,7 +22,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://101.37.172.37:18080/eureka/
+      defaultZone: http://127.0.0.1:80/eureka/
         #        - http://peer1:8081/eureka/
         #        - http://peer2:8082/eureka/
       #配置注册中心的地址,在多注册中心的集群中，只需要注册集群中的一个即可。(注意，url最后的/必须要加，否则无法注册。。。。)
